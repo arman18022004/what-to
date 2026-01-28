@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ek Sawal 😏</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,system-ui}
+body{
+  height:100vh;
+  background:linear-gradient(135deg,#ff4d6d,#6a11cb);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* floating hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  animation:float 6s linear infinite;
+  opacity:.6;
+}
+@keyframes float{
+  to{transform:translateY(-120vh);}
+}
+
+.card{
+  width:92%;
+  max-width:360px;
+  background:rgba(255,255,255,.9);
+  backdrop-filter:blur(12px);
+  border-radius:26px;
+  padding:22px;
+  text-align:center;
+  box-shadow:0 25px 50px rgba(0,0,0,.3);
+  z-index:10;
+}
+
+.card img{width:120px;margin-bottom:10px}
+h1{font-size:22px}
+p{font-size:14px;color:#555}
+h2{font-size:20px;margin:10px 0}
+
+#msg{
+  min-height:28px;
+  font-size:14px;
+  font-weight:600;
+  color:#6a11cb;
+  margin-bottom:14px;
+}
+
+.btn-wrap{position:relative;height:70px}
+button{
+  border:none;
+  padding:12px 26px;
+  font-size:16px;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+#yes{
+  background:linear-gradient(135deg,#ff4d6d,#ff8fab);
+  color:#fff;
+  box-shadow:0 8px 20px rgba(255,77,109,.5);
+}
+#no{background:#eee}
+
+/* mute */
+#mute{
+  position:fixed;
+  top:12px;
+  right:12px;
+  background:#fff;
+  border-radius:50%;
+  padding:8px 10px;
+  cursor:pointer;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="mute">🔊</div>
+
+<!-- hearts -->
+<script>
+for(let i=0;i<20;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText=["💖","💕","💘"][Math.floor(Math.random()*3)];
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDelay=Math.random()*5+"s";
+  document.body.appendChild(h);
+}
+</script>
+
+<div class="card">
+  <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+  <h1>Ek Sawal 😳</h1>
+  <p id="typing"></p>
+  <h2>Sach sach batao 😏<br>tum mujhe pasand karte ho?</h2>
+
+  <div id="msg"></div>
+
+  <div class="btn-wrap">
+    <button id="yes">Haan 😍</button>
+    <button id="no">Nahi 🙃</button>
+  </div>
+</div>
+
+<audio id="bgm" loop autoplay>
+  <source src="https://assets.mixkit.co/music/preview/mixkit-happy-love-528.mp3">
+</audio>
+
+<script>
+/* typing effect */
+const text="Ignore mat karna… ye important hai 👀";
+let i=0;
+setInterval(()=>{
+  if(i<text.length){
+    typing.innerText+=text[i++];
+  }
+},70);
+
+/* music */
+const bgm=document.getElementById("bgm");
+const mute=document.getElementById("mute");
+let muted=false;
+mute.onclick=()=>{
+  muted=!muted;
+  bgm.muted=muted;
+  mute.innerText=muted?"🔇":"🔊";
+};
+
+/* idle tease */
+setInterval(()=>{
+  if(noCount<4){
+    msg.innerText="Kuch toh click karo 😏";
+  }
+},8000);
+
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+const msg=document.getElementById("msg");
+
+let noCount=0;
+let runaway=false;
+
+const msgs=[
+  "Samajh raha hoon 😌",
+  "Sach me sure ho? 🤨",
+  "Mat maan… par tu hai 😜"
+];
+
+function moveNo(){
+  const x=Math.random()*(innerWidth-noBtn.offsetWidth);
+  const y=Math.random()*(innerHeight-noBtn.offsetHeight);
+  noBtn.style.position="fixed";
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+  navigator.vibrate?.(50);
+}
+
+noBtn.onclick=()=>{
+  noCount++;
+  if(noCount<=3){
+    msg.innerText=msgs[noCount-1];
+    return;
+  }
+  runaway=true;
+  msg.innerText="Ab pakad ke dikha 😈";
+  moveNo();
+};
+
+noBtn.onmouseenter=()=>{if(runaway)moveNo()};
+noBtn.ontouchstart=()=>{if(runaway)moveNo()};
+
+yesBtn.onclick=()=>{
+  document.body.innerHTML=`
+  <div style="
+  height:100vh;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;background:linear-gradient(135deg,#ff4d6d,#6a11cb);
+  color:white;text-align:center"
